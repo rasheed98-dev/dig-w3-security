@@ -6,3 +6,12 @@
 - `npm i`
 - `npm run seed`.
 - `npm run dev`.
+
+## Envornment Variables file.
+```
+HOST=localhost
+PORT=27017
+APP_PORT=5000
+DATABASE=clinic
+JWT_SECRET_KEY="your_secret_key_here"
+```
