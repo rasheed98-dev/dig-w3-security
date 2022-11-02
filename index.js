@@ -15,12 +15,14 @@ const APP_PORT = process.env.APP_PORT;
 const MONGODB_CLOUD_CON = process.env.MONGODB_CLOUD_CON;
 // Connecting to  MongoDB
 const mongoose = require('mongoose')
+console.log('Starting...')
 
 if(process.env.ENVIRONMENT == 'development')
 {
     mongoose.connect(`mongodb://${LOCALHOST}:${DB_PORT}/${DATABASE}`);
 }
 else{
+    console.log(MONGODB_CLOUD_CON)
     mongoose.connect(MONGODB_CLOUD_CON);
 }
 
