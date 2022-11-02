@@ -152,6 +152,13 @@ const searchPatients = async (req, res)=>{
 const newHistory = async (req, res)=>{
     const id = req.params.id;//patient
     // TO-DO
+    const errors = validationResult(req).array();
+    console.error(errors)
+    if(errors && errors.length > 0)
+    {
+        return res.status(400).json(error(400,"You have to upload a file"))
+
+    }
     let p = await Patient.findById(id);
     console.log('p',p)
     if(!p)
@@ -160,8 +167,22 @@ const newHistory = async (req, res)=>{
     
     let h = new History(req.body)
     await h.save()
-    p.history.push(h._id)
+    if(!p.history)
+        p.history = []
+        p.history.push(h._id)
+
+    console.log('file is ',req.file)
+
+    if(req.file)
+    {
+        if(!p.images)
+            p.images = []
+        p.images.push(req.file.originalname)
+    }
     p.save()
+    
+    
+    
     // or method 2 to update history array
     /*
     let p = await Patient.findByIdAndUpdate(id,

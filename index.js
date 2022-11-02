@@ -28,6 +28,7 @@ db.once('open', ()=>{
 const PORT = 5000;
 // middlwares
 app.use(express.json())
+app.use(express.static('public'))
 
 // for testing
 app.get('/', (req, res)=>{

@@ -4,8 +4,8 @@ let jwt = require('jsonwebtoken')
 let bcrypt = require('bcryptjs')
 require('dotenv').config()
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
-console.log('JWT Secret', JWT_SECRET_KEY)
 const {success, error} = require('../../../utils/responser')
+const {validationResult} = require('express-validator')
 
 const signup = (req, res)=>{
     const hashedPassword = bcrypt.hashSync(req.body.password,10)
@@ -62,6 +62,12 @@ const signup = (req, res)=>{
 }
 
 const signin = async (req, res)=>{
+    let errors = validationResult(req).array();
+    if(errors)
+    {
+        return res.status(400).json(error(400,errors))
+
+    }
     try {
         let user = await User.findOne({
             username:req.body.username

@@ -1,6 +1,8 @@
-const express = require('express')
+const express = require('express');
+const { check } = require('express-validator');
 const router = express.Router()
 const {newHistory,searchPatients,createPatient,getAllPatients, getPatientById, deletePatient, updatePatient, getHistoryOfPatient} = require('../../controllers/v1/patients/PatientController')
+const uploadFile = require("../../middlewares/upload");
 
 
 
@@ -12,5 +14,12 @@ router.put('/:id', updatePatient);
 router.get('/:id/history', getHistoryOfPatient);
 router.post(`/`, createPatient);
 router.post(`/:id/history`, newHistory);
+router.post(`/:id/history`,[
+    uploadFile,
+    check('file').custom((value, { req }) => {
+    if (!req.file) throw new Error("File is required");
+     return true;
+    }
+)],newHistory);
 
 module.exports = router;
