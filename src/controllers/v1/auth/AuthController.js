@@ -63,7 +63,7 @@ const signup = (req, res)=>{
 
 const signin = async (req, res)=>{
     let errors = validationResult(req).array();
-    if(errors)
+    if(errors.length> 0)
     {
         return res.status(400).json(error(400,errors))
 
